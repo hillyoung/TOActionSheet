@@ -22,6 +22,15 @@
 
 #import "TOActionSheet.h"
 
+
+CGFloat TOCurrentScreenScale(void) {
+    if (@available(iOS 26.0, *)) {
+        return [UITraitCollection currentTraitCollection].displayScale;
+    } else {
+        return [UIScreen mainScreen].scale;
+    }
+}
+
 typedef NS_ENUM(NSInteger, TOActionSheetArrowDirection) {
     TOActionSheetArrowDirectionNone,
     TOActionSheetArrowDirectionDown,
@@ -499,7 +508,7 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
     
     numberOfSeparators += (self.buttonTitles.count - 1);
     
-    CGFloat lineHeight = 1.0f / [[UIScreen mainScreen] scale];
+    CGFloat lineHeight = 1.0f / TOCurrentScreenScale();
     
     self.separatorViews = [NSMutableArray array];
     for (NSInteger i = 0; i < numberOfSeparators; i++) {
